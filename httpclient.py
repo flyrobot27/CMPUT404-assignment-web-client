@@ -27,7 +27,7 @@ import urllib.parse
 ## This assignment is heavily referenced from MDN Web Docs for HTTP request formats
 ## Author: Mozilla
 ## URL: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
-DEBUG = True
+DEBUG = False
 
 def help():
     print("httpclient.py [GET/POST] [URL]\n")
@@ -167,7 +167,7 @@ class HTTPClient(object):
                     queryString += temp
                 path += "?" + queryString
 
-        data = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nAccept: */*\r\n\r\n"
+        data = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nAccept: */*\r\nConnection: Close\r\n\r\n"
 
         if DEBUG:
             print("GET request:", data)
