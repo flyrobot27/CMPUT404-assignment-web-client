@@ -129,7 +129,7 @@ class HTTPClient(object):
             self.socket.close()
 
     
-    def recvall(self, sock):
+    def recvall(self, sock) -> str:
         '''Read everything from the socket'''
         if not sock:
             print("Socket must be set!")
@@ -147,7 +147,7 @@ class HTTPClient(object):
             count += 1
         return buffer.decode('utf-8')
 
-    def GET(self, url, args=None):
+    def GET(self, url, args=None) -> HTTPResponse:
         '''Performs HTTP/1.1 GET'''
         port, host, path = self.parse_url(url)
 
@@ -180,7 +180,7 @@ class HTTPClient(object):
 
         return HTTPResponse(code, body)
 
-    def POST(self, url, args=None):
+    def POST(self, url, args=None) -> HTTPResponse:
         '''Performs HTTP/1.1 POST'''
         port, host, path = self.parse_url(url)
 
@@ -223,7 +223,7 @@ class HTTPClient(object):
         body = self.get_body(result)
         return HTTPResponse(code, body)
 
-    def command(self, url, command="GET", args=None):
+    def command(self, url, command="GET", args=None) -> HTTPResponse:
         if (command == "POST"):
             return self.POST( url, args )
         else:
