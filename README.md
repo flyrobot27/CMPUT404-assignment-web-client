@@ -18,3 +18,11 @@ examples thus some of the code is Copyright © 2001-2013 Python
 Software Foundation; All Rights Reserved under the PSF license (GPL
 compatible) http://docs.python.org/2/library/socketserver.html
 
+Reference
+=========
+
+This assignment is heavily referenced from MDN Web Docs for HTTP request formats
+
+Author: Mozilla
+
+URL: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods

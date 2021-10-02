@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # coding: utf-8
-# Copyright 2016 Abram Hindle, https://github.com/tywtyw2002, and https://github.com/treedust
+# Copyright 2021 Abram Hindle, https://github.com/tywtyw2002, https://github.com/treedust, and Steven Heung
 # 
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -20,11 +20,13 @@
 
 import sys
 import socket
-import re
 from typing import Tuple
 # you may use urllib to encode data appropriately
 import urllib.parse
 
+## This assignment is heavily referenced from MDN Web Docs for HTTP request formats
+## Author: Mozilla
+## URL: https://developer.mozilla.org/en-US/docs/Web/HTTP/Methods
 DEBUG = True
 
 def help():
