@@ -231,7 +231,6 @@ class HTTPClient(object):
     
 if __name__ == "__main__":
     client = HTTPClient()
-    client.GET("")
     if (len(sys.argv) <= 1):
         help()
         sys.exit(1)
