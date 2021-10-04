@@ -82,23 +82,6 @@ class HTTPClient(object):
             print("Path:", path)
         return (port, host, path)
 
-    '''
-    def parse_url(self, url) -> Tuple[int, str, str]:
-        result = urllib.parse.urlparse(url)
-        port = result.port
-        host = result.netloc.split(':')[0]
-        path = result.path
-        if not path:
-            path = '/'
-        
-        if DEBUG:
-            print("Port:", port)
-            print("Host:", host)
-            print("Path:", path)
-
-        return (port, host, path)
-    '''
-
     def parse_args(self, url) -> dict:
         '''Parse any key value pair in url'''
         query_param = str(url).split('?')
