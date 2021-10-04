@@ -99,6 +99,27 @@ class HTTPClient(object):
         return (port, host, path)
     '''
 
+    def parse_args(self, url) -> dict:
+        '''Parse any key value pair in url'''
+        query_param = str(url).split('?')
+        query_param = [i for i in query_param if i] # remove empty strings
+        if len(query_param) == 1:
+            return dict()
+        else:
+            query_param = query_param[0].split('&')
+            args = dict()
+            for param in query_param:
+                keyValue = param.split('=')
+                if len(keyValue) != 2:
+                    continue
+
+                key = keyValue[0]
+                value = keyValue[1]
+                args[key] = value
+            
+            return args                
+
+
     def get_code(self, result) -> int:
         '''Parse the HTTP response code'''
         try:
@@ -158,19 +179,23 @@ class HTTPClient(object):
             return None
 
         # Detect and insert query string. Only accept Dictionaries. 
+        urlArgs = self.parse_args(url)
         if args:
-            if type(args) == dict:
+            if type(args) == dict: # check if supplied args are dictionaries.
                 args = dict(args)
-                queryString = ""
                 for key, value in args.items():
-                    temp = f"{key}={value}&"
-                    queryString += temp
-                path += "?" + queryString
+                    urlArgs[key] = value # supplied args will override args provided in url
 
-        data = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nAccept: */*\r\nConnection: Close\r\n\r\n"
+            queryString = ""
+            for key, value in urlArgs.items():
+                temp = f"{key}={value}&"
+                queryString += temp
+            path += "?" + queryString
+
+        data = f"GET {path} HTTP/1.1\r\nHost: {host}\r\nAccept: */*\r\nAccept-Charset: UTF-8\r\nConnection: Close\r\n\r\n"
 
         if DEBUG:
-            print("GET request:", data)
+            print("GET request:\n", data)
 
         self.sendall(data)
 
