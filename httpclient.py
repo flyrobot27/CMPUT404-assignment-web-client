@@ -49,12 +49,12 @@ class HTTPClient(object):
         super().__init__()
         self.socket = None
 
-    def connect(self, host, port):
+    def connect(self, host: str, port: int):
         '''Connect to the host:port and set the socket object'''
         self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.socket.connect((host, port))
 
-    def parse_url(self, url) -> Tuple[int, str, str]:
+    def parse_url(self, url: str) -> Tuple[int, str, str]:
         '''Parse the URL and return port, host and path'''
         # first, split the HTTP/HTTPS header and get the path
         specifiedPort = url.split(":")[-1].split("/")[0]
@@ -82,9 +82,9 @@ class HTTPClient(object):
             print("Path:", path)
         return (port, host, path)
 
-    def parse_args(self, url) -> dict:
+    def parse_args(self, url: str) -> dict:
         '''Parse any key value pair in url'''
-        query_param = str(url).split('?')
+        query_param = url.split('?')
         query_param = [i for i in query_param if i] # remove empty strings
         if len(query_param) == 1:
             return dict()
@@ -103,7 +103,7 @@ class HTTPClient(object):
             return args                
 
 
-    def get_code(self, result) -> int:
+    def get_code(self, result: str) -> int:
         '''Parse the HTTP response code'''
         try:
             code = result.split()[1]
@@ -114,13 +114,13 @@ class HTTPClient(object):
         return code
 
 
-    def get_body(self, result) -> str:
+    def get_body(self, result: str) -> str:
         '''Parse and get the response body'''
         body = result.split("\r\n")[-1]
         return body
 
 
-    def sendall(self, data):
+    def sendall(self, data: str):
         '''Send the data with the given socket. '''
         if self.socket:
             self.socket.sendall(data.encode('utf-8'))
@@ -133,7 +133,7 @@ class HTTPClient(object):
             self.socket.close()
 
     
-    def recvall(self, sock) -> str:
+    def recvall(self, sock: socket) -> str:
         '''Read everything from the socket'''
         if not sock:
             print("Socket must be set!")
@@ -151,7 +151,7 @@ class HTTPClient(object):
             count += 1
         return buffer.decode('utf-8')
 
-    def GET(self, url, args=None) -> HTTPResponse:
+    def GET(self, url: str, args=None) -> HTTPResponse:
         '''Performs HTTP/1.1 GET'''
         port, host, path = self.parse_url(url)
 
@@ -188,7 +188,7 @@ class HTTPClient(object):
 
         return HTTPResponse(code, body)
 
-    def POST(self, url, args=None) -> HTTPResponse:
+    def POST(self, url: str, args=None) -> HTTPResponse:
         '''Performs HTTP/1.1 POST'''
         port, host, path = self.parse_url(url)
 
@@ -231,7 +231,7 @@ class HTTPClient(object):
         body = self.get_body(result)
         return HTTPResponse(code, body)
 
-    def command(self, url, command="GET", args=None) -> HTTPResponse:
+    def command(self, url: str, command="GET", args=None) -> HTTPResponse:
         if (command == "POST"):
             return self.POST( url, args )
         else:
